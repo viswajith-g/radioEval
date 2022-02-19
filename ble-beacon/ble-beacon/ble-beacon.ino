@@ -20,13 +20,18 @@
 // 0x004C is Apple
 // 0x0822 is Adafruit
 // 0x0059 is Nordic
-#define MANUFACTURER_ID   0x0059
+#define MANUFACTURER_ID   0xA154            // is Vish
+#define DEVICE_ID         1
+#define DEBUG             1
+
+char payload[] = "";
+int packetCount = 1;
 
 // "nRF Connect" app can be used to detect beacon
 uint8_t beaconUuid[16] =
 {
-  0x01, 0x12, 0x23, 0x34, 0x45, 0x56, 0x67, 0x78,
-  0x89, 0x9a, 0xab, 0xbc, 0xcd, 0xde, 0xef, 0xf0
+  0xA1, 0x51, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01          // extends from 0x01 to 0x0A
 };
 
 // A valid Beacon packet consists of the following information:
@@ -35,13 +40,15 @@ BLEBeacon beacon(beaconUuid, 0x0102, 0x0304, -54);
 
 void setup() 
 {
+  if (DEBUG){
   Serial.begin(115200);
 
   // Uncomment to blocking wait for Serial connection
   // while ( !Serial ) delay(10);
 
-  Serial.println("Bluefruit52 Beacon Example");
-  Serial.println("--------------------------\n");
+  Serial.println("Vish Device 1");
+  // Serial.println("--------------------------\n");
+  }
 
   Bluefruit.begin();
 
@@ -51,6 +58,8 @@ void setup()
 
   // Manufacturer ID is required for Manufacturer Specific Data
   beacon.setManufacturer(MANUFACTURER_ID);
+  // beacon.setData(payload);
+  // Bluefruit.setName("Bluefruit52");
 
   // Setup the advertising packet
   startAdv();
